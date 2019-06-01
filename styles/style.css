@@ -1,4 +1,44 @@
-body {
-  background-color: grey;
+* {
+  box-sizing: border-box;
+}
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.grid {
+  width: 400px;
+  height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+div.grid-item {
+  width: 40px;
+  height: 40px;
+  border: 1px dashed black;
+}
+
+div.grid-item.player {
+  background-image: url('/Users/daniela/Development/projects/space-invaders/sprites/laser-cannon.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+div.grid-item.alien {
+  background-image: url('/Users/daniela/Development/projects/space-invaders/sprites/alien.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+div.grid-item.bullet {
+  background-color: red;
 }
