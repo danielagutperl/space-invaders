@@ -60,35 +60,27 @@ function init() {
   }
 
   function shoot(playerIndex) {
-    let bullet = playerIndex - width
+    let bullet = playerIndex - width;
     squares[bullet].classList.add('bullet')
 
     const shootInterval = setInterval( () => {
       squares[bullet].classList.remove('bullet')
       bullet -= width
 
+      aliens.forEach((alien) => {
+        alien.alienHit(bullet)
+      })
+
       squares[bullet].classList.add('bullet')
-      if (bullet < 0) {
+      if (bullet < width) {
         clearInterval(shootInterval)
+        squares[bullet].classList.remove('bullet')
       }
     }, bulletSpeed)
-
-    aliens.forEach((alien) => {
-      alien.alienHit(bullet)
-    })
   }
 
-  // score
-
-  // let scoreDisplay = document.createElement('div')
-  // scoreDisplay.classList.add('scoreDisplay')
-  // scoreDisplay.innerHTML =
-
-
-
-
   // setInterval(moveAlien, 1000)
-
+  //   squares[shootIndex].classList.add('shoot')
   window.addEventListener('keydown', handleKeyDown)
 }
 
@@ -96,9 +88,9 @@ function init() {
 window.addEventListener('DOMContentLoaded', init)
 
 
-
+// collision function - if line in same square as alien, bust alien into asterrisk
 // if alienHit score++
-// bullets from aliens
+// bullets from
 
 class Alien {
   constructor(alienIndex, squares) {
