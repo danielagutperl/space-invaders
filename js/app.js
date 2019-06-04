@@ -1,10 +1,12 @@
 // set up a 10 x 10 grid with an index and player sprite position
-const width = 10
+const width = 20
 const squares = []
-let playerIndex = Math.floor(width * width - 3)
+let playerIndex = Math.floor(width * width - width/2)
 let alienIndex = 0
 const bulletSpeed = 250
 let score = 0
+let alienBombIndex = 0
+
 
 // Initialise game
 function init() {
@@ -16,25 +18,33 @@ function init() {
   for (let i = 0; i < width * width; i++) {
     const square = document.createElement('div')
     square.classList.add('grid-item')
-    square.innerHTML = i
+    // square.innerHTML = i
     squares.push(square)
     grid.append(square)
   }
 
   squares[playerIndex].classList.add('player')
 
+
+// instatiating aliens!
   const aliens = [
     new Alien(0, squares),
     new Alien(2, squares),
     new Alien(4, squares)
   ]
-  console.log(aliens)
 
-  // moves player (if allowed from valid keydown event)
+// instantiating player
+  const player = new Player(playerIndex, squares)
+
+  console.log(aliens)
+  console.log(player)
+
+  // moves player (if allowed from valid keydown event) - move this to player class, along with all other player parts when done
   function movePlayer() {
     squares.forEach(square => square.classList.remove('player'))
     squares[playerIndex].classList.add('player')
   }
+
 
   function handleKeyDown(e) {
     let playerShouldMove = true
@@ -60,7 +70,7 @@ function init() {
   }
 
   function shoot(playerIndex) {
-    let bullet = playerIndex - width;
+    let bullet = playerIndex - width
     squares[bullet].classList.add('bullet')
 
     const shootInterval = setInterval( () => {
@@ -72,24 +82,22 @@ function init() {
       })
 
       squares[bullet].classList.add('bullet')
-      if (bullet < width) {
+      if (bullet < width) { // why cant i clear if null here?
         clearInterval(shootInterval)
         squares[bullet].classList.remove('bullet')
       }
     }, bulletSpeed)
   }
 
-  // setInterval(moveAlien, 1000)
-  //   squares[shootIndex].classList.add('shoot')
   window.addEventListener('keydown', handleKeyDown)
 }
-
 
 window.addEventListener('DOMContentLoaded', init)
 
 
-// collision function - if line in same square as alien, bust alien into asterrisk
+
 // if alienHit score++
+// if alienHit remove bullet
 // bullets from
 
 class Alien {
@@ -100,7 +108,9 @@ class Alien {
     this.movingRight = true
     this.timerId = null
     this.isLive = true
+
     this.init()
+    this.bombingAlien()
   }
 
   get alienDead() {
@@ -109,14 +119,18 @@ class Alien {
 
   init() {
     this.squares[this.alienIndex].classList.add('alien')
-    this.timerId = setInterval(this.moveAlien.bind(this), 1000)
+    this.timerId = setInterval(this.moveAlien.bind(this), 250)
   }
 
   moveAlien() {
     if (!this.isLive) return // end if not live
 
+    if (alienIndex > width * width) {
+      this.squares[this.alienIndex].classList.remove('alien')
+    }
+
     this.squares[this.alienIndex].classList.remove('alien')
-    if (this.moveCount < 5) {
+    if (this.moveCount < 14) {
       if (this.movingRight) {
         this.alienIndex++
       } else {
@@ -131,6 +145,32 @@ class Alien {
     this.squares[this.alienIndex].classList.add('alien')
   }
 
+  dropBomb(positon) {
+    if (!this.isLive) return
+
+    this.squares[positon].classList.add('bomb')
+    const movementInterval = setInterval(() => {
+      this.squares[positon].classList.remove('bomb')
+      positon += width
+
+      if (!this.isLive || this.squares[positon] == null) {
+        clearInterval(movementInterval)
+      } else {
+        this.squares[positon].classList.add('bomb')
+      }
+    }, 250)
+  }
+
+  bombingAlien() {
+    const bombInterval = setInterval( () => {
+      this.dropBomb(this.alienIndex)
+      if (!this.isLive) {
+        clearInterval(bombInterval)
+      }
+    }, 2000) // need to set random interval for bomb alienDropBomb - Math?)
+  }
+
+
   alienHit(bulletIndex) {
     if (bulletIndex === this.alienIndex) {
       this.isLive = false
@@ -139,6 +179,27 @@ class Alien {
     }
 
     return false
+  }
+}
+
+class Player {
+  constructor(playerIndex, squares) {
+    this.playerIndex = playerIndex
+    this.squares = squares
+    this.isLive = true
+    this.numberOfLives = 3
+  }
+
+  playerHit(alienBombIndex) {
+    if (alienBombIndex === this.playerIndex) {
+      this.numberOfLives--
+      this.isLive = false
+
+      if (this.numberOfLives === 0) {
+        this.squares[this.playerIndex].classList.remove('player')
+      }
+      return true
+    }
   }
 }
 

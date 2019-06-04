@@ -22,9 +22,9 @@ div.grid {
 }
 
 div.grid-item {
-  width: 40px;
-  height: 40px;
-  border: 1px dashed black;
+  width: 20px;
+  height: 20px;
+  /* border: 1px dashed black; */
 }
 
 div.grid-item.player {
@@ -40,5 +40,11 @@ div.grid-item.alien {
 }
 
 div.grid-item.bullet {
+  background-image: url('/Users/daniela/Development/projects/space-invaders/sprites/missile.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  }
+
+div.grid-item.bomb {
   background-color: red;
 }
