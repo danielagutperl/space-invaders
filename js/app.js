@@ -41,7 +41,43 @@ function init() {
   const aliens = [
     new Alien(0, squares),
     new Alien(2, squares),
-    new Alien(4, squares)
+    new Alien(4, squares),
+
+    new Alien(6, squares),
+    new Alien(8, squares),
+    new Alien(10, squares),
+    new Alien(13, squares),
+
+    new Alien(15, squares),
+    new Alien(17, squares),
+    new Alien(19, squares),
+
+    new Alien(20, squares),
+    new Alien(22, squares),
+    new Alien(24, squares),
+
+    new Alien(26, squares),
+    new Alien(28, squares),
+    new Alien(30, squares),
+    new Alien(33, squares),
+
+    new Alien(35, squares),
+    new Alien(37, squares),
+    new Alien(39, squares),
+
+    new Alien(40, squares),
+    new Alien(42, squares),
+    new Alien(44, squares),
+
+    new Alien(46, squares),
+    new Alien(48, squares),
+    new Alien(40, squares),
+    new Alien(43, squares),
+
+    new Alien(45, squares),
+    new Alien(47, squares),
+    new Alien(49, squares),
+
   ]
 
 // instantiating player
@@ -120,7 +156,6 @@ class Alien {
     this.squares = squares
     this.moveCount = 0
     this.movingRight = true
-    this.timerId = null
     this.isLive = true
 
     this.init()
@@ -137,14 +172,17 @@ class Alien {
   }
 
   moveAlien() {
-    if (!this.isLive) return // end if not live
+    if (!this.isLive) {
+      clearInterval(this.timerId)
+      return // end if not live
+    }
 
     if (alienIndex > width * width) {
       this.squares[this.alienIndex].classList.remove('alien')
     }
 
     this.squares[this.alienIndex].classList.remove('alien')
-    if (this.moveCount < 14) {
+    if (this.moveCount < 1) {
       if (this.movingRight) {
         this.alienIndex++
       } else {
@@ -155,6 +193,11 @@ class Alien {
       this.alienIndex += width
       this.moveCount = 0
       this.movingRight =!this.movingRight
+    }
+
+    this.playerHitByProjectile(this.alienIndex)
+    if (this.squares[this.alienIndex] == null) {
+      return clearInterval(this.timerId)
     }
     this.squares[this.alienIndex].classList.add('alien')
   }
@@ -167,8 +210,7 @@ class Alien {
       this.squares[alienBombIndex].classList.remove('bomb')
       alienBombIndex += width
 
-
-      this.playerHit(alienBombIndex)
+      this.playerHitByProjectile(alienBombIndex)
 
       if (!this.isLive || this.squares[alienBombIndex] == null) {
         clearInterval(movementInterval)
@@ -179,8 +221,8 @@ class Alien {
     }, 250)
   }
 
-  playerHit(alienBombIndex) {
-    if (alienBombIndex === playerIndex) {
+  playerHitByProjectile(projectileIndex) {
+    if (projectileIndex === playerIndex) {
       console.log(`player hit ${player}`)
       player.numberOfLives--
       player.isLive = false
@@ -194,10 +236,10 @@ class Alien {
 
   bombingAlien() {
     const bombInterval = setInterval( () => {
-      this.dropBomb(this.alienIndex)
-      if (!this.isLive) {
-        clearInterval(bombInterval)
+      if (!this.isLive || this.squares[this.alienIndex] == null) {
+        return clearInterval(bombInterval)
       }
+      this.dropBomb(this.alienIndex)
     }, Math.ceil(Math.random() * 5000) + 500)
   }
 
