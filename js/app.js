@@ -7,6 +7,17 @@ const bulletSpeed = 250
 let score = 0
 let alienBombIndex = 0
 
+class Players {
+  constructor(playerIndex, squares) {
+    this.playerIndex = playerIndex
+    this.squares = squares
+    this.isLive = true
+    this.numberOfLives = 3
+  }
+}
+const player = new Players(playerIndex, squares)
+console.log(player)
+
 
 // Initialise game
 function init() {
@@ -34,17 +45,19 @@ function init() {
   ]
 
 // instantiating player
-  const player = new Player(playerIndex, squares)
+  const player = new Players(playerIndex, squares)
 
-  console.log(aliens)
   console.log(player)
+  console.log(aliens)
 
-  // moves player (if allowed from valid keydown event) - move this to player class, along with all other player parts when done
+  // moves player (if allowed from valid keydown event) -
+  //move this to player class, along with all other player parts when done
   function movePlayer() {
     squares.forEach(square => square.classList.remove('player'))
     squares[playerIndex].classList.add('player')
-  }
 
+
+  }
 
   function handleKeyDown(e) {
     let playerShouldMove = true
@@ -95,10 +108,11 @@ function init() {
 window.addEventListener('DOMContentLoaded', init)
 
 
-
 // if alienHit score++
 // if alienHit remove bullet
 // bullets from
+
+
 
 class Alien {
   constructor(alienIndex, squares) {
@@ -145,20 +159,37 @@ class Alien {
     this.squares[this.alienIndex].classList.add('alien')
   }
 
-  dropBomb(positon) {
+  dropBomb(alienBombIndex) {
     if (!this.isLive) return
 
-    this.squares[positon].classList.add('bomb')
+    this.squares[alienBombIndex].classList.add('bomb')
     const movementInterval = setInterval(() => {
-      this.squares[positon].classList.remove('bomb')
-      positon += width
+      this.squares[alienBombIndex].classList.remove('bomb')
+      alienBombIndex += width
 
-      if (!this.isLive || this.squares[positon] == null) {
+
+      this.playerHit(alienBombIndex)
+
+      if (!this.isLive || this.squares[alienBombIndex] == null) {
         clearInterval(movementInterval)
       } else {
-        this.squares[positon].classList.add('bomb')
+        this.squares[alienBombIndex].classList.add('bomb')
+
       }
     }, 250)
+  }
+
+  playerHit(alienBombIndex) {
+    if (alienBombIndex === playerIndex) {
+      console.log(`player hit ${player}`)
+      player.numberOfLives--
+      player.isLive = false
+      console.log(player)
+      if (player.numberOfLives === 0) {
+        this.squares[player.playerIndex].classList.remove('player')
+      }
+      return true
+    }
   }
 
   bombingAlien() {
@@ -167,7 +198,7 @@ class Alien {
       if (!this.isLive) {
         clearInterval(bombInterval)
       }
-    }, 2000) // need to set random interval for bomb alienDropBomb - Math?)
+    }, Math.ceil(Math.random() * 5000) + 500)
   }
 
 
@@ -181,58 +212,3 @@ class Alien {
     return false
   }
 }
-
-class Player {
-  constructor(playerIndex, squares) {
-    this.playerIndex = playerIndex
-    this.squares = squares
-    this.isLive = true
-    this.numberOfLives = 3
-  }
-
-  playerHit(alienBombIndex) {
-    if (alienBombIndex === this.playerIndex) {
-      this.numberOfLives--
-      this.isLive = false
-
-      if (this.numberOfLives === 0) {
-        this.squares[this.playerIndex].classList.remove('player')
-      }
-      return true
-    }
-  }
-}
-
-
-//
-// const rowsCount = 1
-// function moveAlien() {
-//   let moving = 1
-//   squares[alienIndex].classList.remove('alien')
-//
-//   if (alienIndex < 9) {
-//     alienIndex = alienIndex + moving
-//   } else if (alienIndex === 9) {
-//     alienIndex += width
-//   } else if (alienIndex <= 19 && alienIndex > 10) {
-//     moving = -1
-//     alienIndex = alienIndex + moving
-//   } else if (alienIndex === 10) {
-//     alienIndex += width
-//   } else if (alienIndex < 29 && alienIndex >= 20) {
-//     moving = +1
-//     alienIndex = alienIndex + moving
-//   } else if (alienIndex === 29) {
-//     alienIndex += width
-//   } else if (alienIndex <= 39 && alienIndex > 30) {
-//     moving = -1
-//     alienIndex = alienIndex + moving
-//   } else if (alienIndex === 30) {
-//     alienIndex += width
-//   } else if (alienIndex < 49 && alienIndex >= 40) {
-//     moving = +1
-//     alienIndex = alienIndex + moving
-//   }
-//
-//   squares[alienIndex].classList.add('alien')
-// }
