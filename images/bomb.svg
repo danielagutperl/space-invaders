@@ -1,0 +1,21 @@
+<svg>
+<g>
+    <rect width="2" height="10" fill="#FF0000" />
+<g>
+</svg>
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  version="1.1"
+  viewBox="0 0 100 100"
+  width="260"
+  height="400"
+
+     >
+
+
+   <rect x="5" y="50" width="10" height="5" fill="#FFFFFF" stroke="black" stroke-width="1" />
+
+     <rect x="80" y="50" width="10" height="5" fill="#FFFFFF" stroke="black" stroke-width="1" />
+
+</svg>

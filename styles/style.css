@@ -12,6 +12,31 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url('../images/invaders-back.png');
+  /* background-image: url('/Users/daniela/Development/projects/space-invaders/sprites/invadbez.png'); */
+  background-size: cover;
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 150px [col-start] 500px [col-start] 50px [col-start];
+}
+
+aside {
+  color: yellow;
+  font-size: 100px;
+  
+}
+
+
+
+.logo {
+  width: 100px;
+  height: 100px;
+  background-image: url('../images/si-logo.png');
+  background-size: contain;
 }
 
 div.grid {
@@ -28,23 +53,51 @@ div.grid-item {
 }
 
 div.grid-item.player {
-  background-image: url('/Users/daniela/Development/projects/space-invaders/sprites/laser-cannon.png');
+  background-image: url('../images/galaga-fighter.png');
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 div.grid-item.alien {
-  background-image: url('/Users/daniela/Development/projects/space-invaders/sprites/alien.png');
+  background-image: url('../images/invader.gif');
   background-repeat: no-repeat;
   background-size: contain;
 }
 
-div.grid-item.bullet {
-  background-image: url('/Users/daniela/Development/projects/space-invaders/sprites/missile.png');
+/* div.grid-item.bullet {
+  background-image: url('../images/missile.png');
   background-repeat: no-repeat;
   background-size: contain;
+  } */
+
+div.grid-item.bullet::after {
+    content: '|';
+    color: #51ff0d;
+    display: flex;
+    font-weight: 800;
+    justify-content: center;
   }
 
+  div.grid-item.bullet {
+    /* background-color: red; */
+    height: 20px;
+    /* width: 2px; */
+    /* border-radius: 50%; */
+  }
+
+
+
 div.grid-item.bomb {
-  background-color: red;
+  /* background-color: red; */
+  height: 20px;
+  /* width: 2px; */
+  /* border-radius: 50%; */
+}
+
+div.grid-item.bomb::after {
+  content: '|';
+  color: red;
+  display: flex;
+  font-weight: 800;
+  justify-content: center;
 }

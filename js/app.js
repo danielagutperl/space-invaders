@@ -6,6 +6,8 @@ let alienIndex = 0
 const bulletSpeed = 250
 let score = 0
 let alienBombIndex = 0
+let player = null
+let aliens = null
 
 class Players {
   constructor(playerIndex, squares) {
@@ -13,17 +15,74 @@ class Players {
     this.squares = squares
     this.isLive = true
     this.numberOfLives = 3
+
+    this.handleKeyDown = this.handleKeyDown.bind(this)
+    window.addEventListener('keydown', this.handleKeyDown)
+  }
+
+  resetPlayer() {
+    this.isLive = false
+    this.squares[this.playerIndex].classList.remove('player')
+    window.removeEventListener('keydown', this.handleKeyDown)
+  }
+
+  shoot() {
+    let bullet = this.playerIndex - width
+    this.squares[bullet].classList.add('bullet')
+
+    const shootInterval = setInterval( () => {
+      this.squares[bullet].classList.remove('bullet')
+      bullet -= width
+
+      aliens.forEach((alien) => {
+        alien.alienHit(bullet)
+      })
+
+      this.squares[bullet].classList.add('bullet')
+      if (bullet < width) { // why cant i clear if null here?
+        clearInterval(shootInterval)
+        this.squares[bullet].classList.remove('bullet')
+      }
+    }, bulletSpeed)
+  }
+
+  handleKeyDown(e) {
+    let playerShouldMove = true
+    switch(e.keyCode) {
+      case 39:
+        if (this.playerIndex % width < width - 1) {
+          this.playerIndex++
+        }
+        break
+      case 37:
+        if (this.playerIndex % width > 0) {
+          this.playerIndex--
+        }
+        break
+      case 32:
+        this.shoot()
+        break
+
+      default:
+        playerShouldMove = false
+    }
+    if (playerShouldMove) this.movePlayer()
+  }
+
+  // moves player (if allowed from valid keydown event) -
+
+  movePlayer() {
+    this.squares.forEach(square => square.classList.remove('player'))
+    this.squares[this.playerIndex].classList.add('player')
   }
 }
-const player = new Players(playerIndex, squares)
-console.log(player)
-
 
 // Initialise game
 function init() {
 
   // hook on parent grid
   const grid = document.querySelector('.grid')
+  document.querySelector('.user-score').innerHTML = 0
 
   // loop to add squares for w * w
   for (let i = 0; i < width * width; i++) {
@@ -38,7 +97,7 @@ function init() {
 
 
 // instatiating aliens!
-  const aliens = [
+  aliens = [
     new Alien(0, squares),
     new Alien(2, squares),
     new Alien(4, squares),
@@ -46,11 +105,6 @@ function init() {
     new Alien(6, squares),
     new Alien(8, squares),
     new Alien(10, squares),
-    new Alien(13, squares),
-
-    new Alien(15, squares),
-    new Alien(17, squares),
-    new Alien(19, squares),
 
     new Alien(20, squares),
     new Alien(22, squares),
@@ -59,11 +113,6 @@ function init() {
     new Alien(26, squares),
     new Alien(28, squares),
     new Alien(30, squares),
-    new Alien(33, squares),
-
-    new Alien(35, squares),
-    new Alien(37, squares),
-    new Alien(39, squares),
 
     new Alien(40, squares),
     new Alien(42, squares),
@@ -71,83 +120,40 @@ function init() {
 
     new Alien(46, squares),
     new Alien(48, squares),
-    new Alien(40, squares),
-    new Alien(43, squares),
-
-    new Alien(45, squares),
-    new Alien(47, squares),
-    new Alien(49, squares),
-
+    new Alien(50, squares)
   ]
 
-// instantiating player
-  const player = new Players(playerIndex, squares)
+  // instantiating player
+  player = new Players(playerIndex, squares)
 
   console.log(player)
   console.log(aliens)
 
-  // moves player (if allowed from valid keydown event) -
-  //move this to player class, along with all other player parts when done
-  function movePlayer() {
-    squares.forEach(square => square.classList.remove('player'))
-    squares[playerIndex].classList.add('player')
+}
 
+function resetGame() {
 
+  if (player) {
+    player.resetPlayer()
+  }
+  if (aliens) {
+    aliens.forEach(a => {
+      a.resetAlien()
+    })
   }
 
-  function handleKeyDown(e) {
-    let playerShouldMove = true
-    switch(e.keyCode) {
-      case 39:
-        if (playerIndex % width < width - 1) {
-          playerIndex++
-        }
-        break
-      case 37:
-        if (playerIndex % width > 0) {
-          playerIndex--
-        }
-        break
-      case 32:
-        shoot(playerIndex)
-        break
-
-      default:
-        playerShouldMove = false
-    }
-    if (playerShouldMove) movePlayer()
-  }
-
-  function shoot(playerIndex) {
-    let bullet = playerIndex - width
-    squares[bullet].classList.add('bullet')
-
-    const shootInterval = setInterval( () => {
-      squares[bullet].classList.remove('bullet')
-      bullet -= width
-
-      aliens.forEach((alien) => {
-        alien.alienHit(bullet)
-      })
-
-      squares[bullet].classList.add('bullet')
-      if (bullet < width) { // why cant i clear if null here?
-        clearInterval(shootInterval)
-        squares[bullet].classList.remove('bullet')
-      }
-    }, bulletSpeed)
-  }
-
-  window.addEventListener('keydown', handleKeyDown)
+  init()
 }
 
 window.addEventListener('DOMContentLoaded', init)
+
+const reset = document.querySelector('#reset-button')
+reset.addEventListener('click', resetGame)
 
 
 // if alienHit score++
 // if alienHit remove bullet
 // bullets from
-
 
 
 class Alien {
@@ -166,6 +172,12 @@ class Alien {
     return !this.isLive
   }
 
+  resetAlien() {
+    this.isLive = false
+    if (this.timerId) clearInterval(this.timerId);
+    this.squares[this.alienIndex].classList.remove('alien')
+  }
+
   init() {
     this.squares[this.alienIndex].classList.add('alien')
     this.timerId = setInterval(this.moveAlien.bind(this), 250)
@@ -182,7 +194,7 @@ class Alien {
     }
 
     this.squares[this.alienIndex].classList.remove('alien')
-    if (this.moveCount < 1) {
+    if (this.moveCount < 9) {
       if (this.movingRight) {
         this.alienIndex++
       } else {
@@ -243,14 +255,19 @@ class Alien {
     }, Math.ceil(Math.random() * 5000) + 500)
   }
 
-
   alienHit(bulletIndex) {
-    if (bulletIndex === this.alienIndex) {
+    if (bulletIndex === this.alienIndex && this.isLive === true) {
       this.isLive = false
+      score += 250
+      document.querySelector('.user-score').innerHTML = score
       this.squares[this.alienIndex].classList.remove('alien')
       return true
     }
 
     return false
+  }
+
+  increasePlayerScore() {
+
   }
 }
