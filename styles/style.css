@@ -24,12 +24,10 @@ body {
   grid-template-columns: 150px [col-start] 500px [col-start] 50px [col-start];
 }
 
-aside {
-  color: yellow;
-  font-size: 100px;
-  
+.score-container {
+  color: #ffda63;
+  font-size: 50px;
 }
-
 
 
 .logo {
