@@ -1,10 +1,19 @@
 # Space Invaders
 This is a dupe of the awesome 1970's space invaders game (https://spaceinvaders.square-enix-games.com/).
 
-To play:
+Space Invaders is a classic arcade game from the 80s. The player aims to shoot an invading alien armada, before it reaches the planet's surface using a mounted gun turret.
+
+The player can only move left or right. The aliens also move from left to right, and also down each time the reach the side of the screen. The aliens also periodically drop bombs towards the player.
+
+## To play:
 Move left: Key left-arrow
 Move right: Key right-arrow
 Shoot: Key up-arrow
+
+## Requirements
+* The player should be able to clear at least one wave of aliens
+* The player's score should be displayed at the end of the game
+* The main challenge here is the movement of large groups of aliens in formation, and the animation of the bombs and player's shots. There are several approaches here, with collision detection being the more challenging.
 
 # Technology used
 JavaScript
