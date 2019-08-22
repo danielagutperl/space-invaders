@@ -6,9 +6,12 @@ Space Invaders is a classic arcade game from the 80s. The player aims to shoot a
 The player can only move left or right. The aliens also move from left to right, and also down each time the reach the side of the screen. The aliens also periodically drop bombs towards the player.
 
 ## To play:
-Move left: Key left-arrow
-Move right: Key right-arrow
-Shoot: Key up-arrow
+Move left: Key left-arrow . 
+
+Move right: Key right-arrow . 
+
+Shoot: Key up-arrow . 
+
 
 ## Requirements
 * The player should be able to clear at least one wave of aliens
@@ -23,9 +26,12 @@ Shoot: Key up-arrow
 | 1.5 days  | Testing, bug fixes, deployment      |
 
 ## Technology used
-  JavaScript
-  HTML5
-  CSS3
+  JavaScript . 
+  
+  HTML5 . 
+  
+  CSS3 . 
+  
 
 ## The best bits
 My favourite thing was thinking about the game logic, and moving so many elements across the screen. I hadn't done that so much before (just in a Pong dupe, but that worked differently and used SVGs instead). In particular the alien movement in a group was challenging, and having aliens ‘know’ their particular position, status (dead or live), and their shooting was fun to get my head around!
