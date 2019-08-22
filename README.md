@@ -6,11 +6,11 @@ Space Invaders is a classic arcade game from the 80s. The player aims to shoot a
 The player can only move left or right. The aliens also move from left to right, and also down each time the reach the side of the screen. The aliens also periodically drop bombs towards the player.
 
 ## To play:
-Move left: Key left-arrow . 
+Move left: Key left-arrow 
 
-Move right: Key right-arrow . 
+Move right: Key right-arrow 
 
-Shoot: Key up-arrow . 
+Shoot: Key up-arrow 
 
 
 ## Requirements
