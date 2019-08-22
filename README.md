@@ -26,11 +26,11 @@ Shoot: Key up-arrow
 | 1.5 days  | Testing, bug fixes, deployment      |
 
 ## Technology used
-  JavaScript . 
+  JavaScript 
   
-  HTML5 . 
+  HTML5 
   
-  CSS3 . 
+  CSS3 
   
 
 ## The best bits
