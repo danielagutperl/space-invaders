@@ -27,9 +27,7 @@ Shoot: Key up-arrow
 
 ## Technology used
   JavaScript 
-  
   HTML5 
-  
   CSS3 
   
 
