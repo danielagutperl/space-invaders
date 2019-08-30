@@ -10,19 +10,21 @@ There is a score counter keeping track of number of shot aliens, and a reset but
 ![alt text][spaceInvadersPic.png]
 
 ## To play:
-Move left: Key left-arrow 
+- Move left: Key left-arrow 
 
-Move right: Key right-arrow 
+- Move right: Key right-arrow 
 
-Shoot: Space-bar
+- Shoot: Space-bar
 
 
 ## Requirements
 * The player should be able to clear at least one wave of aliens
 * The player's score should be displayed
+* Work solo
+* Max-timeframe: 7 days
 
+### The main challenge
 * The main challenge here is the movement of large groups of aliens in formation, and the animation of the bombs and player's shots. There are several approaches here, with collision detection being the more challenging.
-
 
 ```javascript
   moveAlien() {
@@ -62,7 +64,7 @@ Shoot: Space-bar
 | ------------- |:-------------:|
 | 1.5 day        | Planning, research |
 | ~ 3.5 days        | Game logic, minimal styling    |
-| 1.5 days  | Testing, bug fixes     |
+| 2 days  | Testing, bug fixes  |
 
 ## Technology used
  * JavaScript 
