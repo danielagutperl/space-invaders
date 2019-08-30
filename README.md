@@ -65,9 +65,9 @@ Shoot: Space-bar
 | 1.5 days  | Testing, bug fixes     |
 
 ## Technology used
-  JavaScript 
-  HTML5 
-  CSS3 
+ * JavaScript 
+ * HTML5 
+ * CSS3 
 
 ## Wins and blockers
 My favourite thing was thinking about the game logic, and moving so many elements across the screen. I hadn't done that so much before (just in a Pong dupe, but that worked differently and used SVGs instead). In particular the alien movement in a group was challenging, and having aliens ‘know’ their particular position, status (dead or live), and their shooting was fun to get my head around!
