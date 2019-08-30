@@ -36,3 +36,7 @@ My favourite thing was thinking about the game logic, and moving so many element
 
 ## What I'd change
 Sprites, look and feel of the game. It doesn't look as good as I would like. I care about that, and I'd like to put time into making it look good!
+
+![alt text][spaceInvadersPic.png]
+
+[spaceInvadersPic.png]: spaceInvadersPic.png
